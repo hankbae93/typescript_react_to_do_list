@@ -1,46 +1,64 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+    npx create-react-app {project} --template typescript
 
-## Available Scripts
+## 커스텀 훅스 쓸 때 주의할 점
 
-In the project directory, you can run:
+strict: true 설정에서는 리턴타입도 지정해줘야 union type이 되지 않는다.
 
-### `npm start`
+1시간정도 헤멘 것 같다;;
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```tsx
+import { useState } from "react";
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+type useToDoArg = [string, (e: React.ChangeEvent<HTMLInputElement>) => void];
 
-### `npm test`
+const useTodo = (): useToDoArg => {
+  const [value, setValue] = useState<string>("");
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
 
-### `npm run build`
+  return [value, onChange];
+};
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+export default useTodo;
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Context파일에도 tsx를 애용합시다 ...
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+해당 파일을 ts로 작성하니 createContext로 만든 ctx를 tsx에서 못찾는 에러가 있엇다.
 
-### `npm run eject`
+```tsx
+import React, { useContext, createContext, useState, FC } from "react";
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+export interface ToDo {
+  id: number;
+  content: string;
+}
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+interface ToDoState {
+  todos: ToDo[];
+  setTodos: React.Dispatch<React.SetStateAction<ToDo[]>>;
+}
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+const ToDoContext = createContext<ToDoState | null>(null);
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+export const useToDo = () => {
+  return useContext(ToDoContext);
+};
 
-## Learn More
+const TodosProvider = ({ children }: { children: React.ReactNode }) => {
+  const [todos, setTodos] = useState<ToDo[]>([]);
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  const value = {
+    todos,
+    setTodos,
+  };
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  return <ToDoContext.Provider value={value}>{children}</ToDoContext.Provider>;
+};
+
+export default TodosProvider;
+```
