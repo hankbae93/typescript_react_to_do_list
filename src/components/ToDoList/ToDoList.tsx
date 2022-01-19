@@ -1,9 +1,9 @@
 import React, { FC } from "react";
-import { ToDo, useToDo } from "../../contexts/ToDoContext";
+import { useTodoContext } from "../../contexts/ToDoContext";
+import { ToDo } from "../../type";
 
 const ToDoList: FC = () => {
-  const { todos, setTodos } = useToDo();
-
+  const { todos } = useTodoContext();
   return (
     <>
       <ul>

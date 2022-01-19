@@ -1,27 +1,28 @@
 import React, { useContext, createContext, useState, FC } from "react";
+import { ToDo, TodoContextType } from "../type";
 
-export interface ToDo {
-  // id: number;
-  content: string;
-}
+const ToDoContext = createContext<TodoContextType | null>(null);
 
-interface ToDoState {
-  todos: ToDo[];
-  setTodos: React.Dispatch<React.SetStateAction<ToDo[]>>;
-}
-
-const ToDoContext = createContext<ToDoState | null>(null);
-
-export const useToDo = () => {
-  return useContext(ToDoContext);
+export const useTodoContext = (): TodoContextType => {
+  return useContext(ToDoContext) as TodoContextType;
 };
 
-const TodosProvider = ({ children }: { children: React.ReactNode }) => {
-  const [todos, setTodos] = useState<ToDo[] | []>([]);
+const TodosProvider: FC<React.ReactNode> = ({ children }) => {
+  const [todos, setTodos] = useState<ToDo[]>([]);
+
+  const addTodo = (todo: ToDo) => {
+    setTodos((prev) => prev.concat(todo));
+  };
+
+  const updateTodo = (id: number) => {};
+
+  const deleteTodo = (id: number) => {};
 
   const value = {
     todos,
-    setTodos,
+    addTodo,
+    updateTodo,
+    deleteTodo,
   };
 
   return <ToDoContext.Provider value={value}>{children}</ToDoContext.Provider>;

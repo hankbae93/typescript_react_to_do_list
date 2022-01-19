@@ -1,13 +1,13 @@
 import React, { FC } from "react";
 
 import TodosProvider from "./contexts/ToDoContext";
-import AddTodo from "./components/AddTodo";
+import ToDoForm from "./components/ToDoForm";
 import ToDoList from "./components/ToDoList";
 
 const App: FC = () => {
   return (
     <TodosProvider>
-      <AddTodo />
+      <ToDoForm />
       <ToDoList />
     </TodosProvider>
   );
