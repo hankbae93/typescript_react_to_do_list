@@ -1,20 +1,22 @@
 import React, { FC } from "react";
 import { useTodoContext } from "../../contexts/ToDoContext";
-import { TodoContextType } from "../../type";
+import { ToDo } from "../../type";
 
 import useTodo from "./hooks/useTodo";
 
 const ToDoForm: FC = () => {
   const [value, onChange, setValue] = useTodo();
-  const { addTodo } = useTodoContext();
+  const { todos, addTodo } = useTodoContext();
 
   const AddTodos = () => {
-    // setTodos((prev: ToDo[]) =>
-    //   prev.concat({
-    //     content: value,
-    //   })
-    // );
-    // setValue("");
+    const lastId = todos[todos.length - 1]?.id ?? 1;
+    const todo: ToDo = {
+      id: lastId,
+      content: value,
+      status: false,
+    };
+    addTodo(todo);
+    setValue("");
   };
 
   return (

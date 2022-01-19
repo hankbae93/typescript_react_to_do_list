@@ -1,6 +1,6 @@
 export interface ToDo {
   id: number;
-  title: string;
+  // title: string;
   content: string;
   status: boolean;
 }
