@@ -5,7 +5,7 @@ import { ToDo } from "../../type";
 import useTodo from "./hooks/useTodo";
 
 const ToDoForm: FC = () => {
-  const [value, onChange, setValue] = useTodo();
+  const [value, onChange, setValue] = useTodo("");
   const { todos, addTodo } = useTodoContext();
 
   const AddTodos = () => {

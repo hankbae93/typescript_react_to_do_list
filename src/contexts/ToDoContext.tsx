@@ -20,18 +20,20 @@ const TodosProvider: FC<React.ReactNode> = ({ children }) => {
     setTodos((prev) => prev.concat(todo));
   };
 
-  const updateTodo = (id: number) => {};
+  const updateTodo = (id: number, content: string) => {
+    setTodos((prev) =>
+      prev.map((todo, i) => {
+        return todo.id === id ? { ...todo, content } : todo;
+      })
+    );
+  };
 
   const deleteTodo = (id: number) => {};
 
   const checkTodo = (id: number, status: boolean) => {
     setTodos((prev) =>
       prev.map((todo, i) => {
-        if (todo.id === id) {
-          return { ...todo, status };
-        } else {
-          return todo;
-        }
+        return todo.id === id ? { ...todo, status } : todo;
       })
     );
   };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 
 type useToDoArg = [
   string,
@@ -6,8 +6,8 @@ type useToDoArg = [
   React.Dispatch<React.SetStateAction<string>>
 ];
 
-const useTodo = (): useToDoArg => {
-  const [value, setValue] = useState<string>("");
+const useTodo = (defaultValue: string): useToDoArg => {
+  const [value, setValue] = useState<string>(defaultValue ?? "");
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
