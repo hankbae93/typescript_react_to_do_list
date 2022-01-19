@@ -10,4 +10,5 @@ export interface TodoContextType {
   addTodo: (todo: ToDo) => void;
   updateTodo: (id: number) => void;
   deleteTodo: (id: number) => void;
+  checkTodo: (id: number, status: boolean) => void;
 }

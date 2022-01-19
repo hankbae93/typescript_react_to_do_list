@@ -9,7 +9,7 @@ const ToDoForm: FC = () => {
   const { todos, addTodo } = useTodoContext();
 
   const AddTodos = () => {
-    const lastId = todos[todos.length - 1]?.id ?? 1;
+    const lastId = (todos[todos.length - 1]?.id ?? 0) + 1;
     const todo: ToDo = {
       id: lastId,
       content: value,

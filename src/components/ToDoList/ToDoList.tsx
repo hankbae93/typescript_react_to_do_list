@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { useTodoContext } from "../../contexts/ToDoContext";
 import { ToDo } from "../../type";
+import ToDoItem from "./ToDoItem";
 
 const ToDoList: FC = () => {
   const { todos } = useTodoContext();
@@ -8,7 +9,7 @@ const ToDoList: FC = () => {
     <>
       <ul>
         {todos.map((item: ToDo, i: number) => {
-          return <li>{item.content}</li>;
+          return <ToDoItem {...item} key={item.id} />;
         })}
       </ul>
     </>

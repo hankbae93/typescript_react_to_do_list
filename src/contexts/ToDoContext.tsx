@@ -1,4 +1,10 @@
-import React, { useContext, createContext, useState, FC } from "react";
+import React, {
+  useContext,
+  createContext,
+  useState,
+  FC,
+  useEffect,
+} from "react";
 import { ToDo, TodoContextType } from "../type";
 
 const ToDoContext = createContext<TodoContextType | null>(null);
@@ -18,11 +24,28 @@ const TodosProvider: FC<React.ReactNode> = ({ children }) => {
 
   const deleteTodo = (id: number) => {};
 
+  const checkTodo = (id: number, status: boolean) => {
+    setTodos((prev) =>
+      prev.map((todo, i) => {
+        if (todo.id === id) {
+          return { ...todo, status };
+        } else {
+          return todo;
+        }
+      })
+    );
+  };
+
+  useEffect(() => {
+    console.table(todos);
+  }, [todos]);
+
   const value = {
     todos,
     addTodo,
     updateTodo,
     deleteTodo,
+    checkTodo,
   };
 
   return <ToDoContext.Provider value={value}>{children}</ToDoContext.Provider>;
