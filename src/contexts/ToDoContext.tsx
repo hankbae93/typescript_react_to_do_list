@@ -28,7 +28,9 @@ const TodosProvider: FC<React.ReactNode> = ({ children }) => {
     );
   };
 
-  const deleteTodo = (id: number) => {};
+  const deleteTodo = (id: number) => {
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+  };
 
   const checkTodo = (id: number, status: boolean) => {
     setTodos((prev) =>

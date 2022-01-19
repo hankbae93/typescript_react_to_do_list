@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useCallback } from "react";
 import { useTodoContext } from "../../contexts/ToDoContext";
 import { ToDo } from "../../type";
 import useTodo from "../ToDoForm/hooks/useTodo";
@@ -8,17 +8,21 @@ const ToDoItem: FC<ToDo> = ({ id, content, status }) => {
   const { checkTodo, updateTodo, deleteTodo } = useTodoContext();
   const [value, onChange] = useTodo(content);
 
-  const onClick = () => {
+  const onClick = useCallback(() => {
     checkTodo(id, !status);
-  };
+  }, [checkTodo, id, status]);
 
-  const onModify = () => {
+  const onModify = useCallback(() => {
     setIsEdit(true);
-  };
+  }, []);
 
-  const onUpdate = () => {
+  const onUpdate = useCallback(() => {
     updateTodo(id, value);
     setIsEdit(false);
+  }, [id, updateTodo, value]);
+
+  const onDelete = () => {
+    deleteTodo(id);
   };
 
   return (
@@ -36,6 +40,7 @@ const ToDoItem: FC<ToDo> = ({ id, content, status }) => {
       </p>
       {!status && <button onClick={onClick}>임무 완료</button>}
       {status && <button onClick={onClick}>임무 완료 취소</button>}
+      <button onClick={onDelete}>삭제</button>
     </li>
   );
 };
